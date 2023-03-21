@@ -8,8 +8,8 @@ module.exports = (sequelize) => {
   sequelize.define('type',{
     id: {
       // type: DataTypes.INTEGER,
-      type: DataTypes.UUID,
-      defaultValue: DataTypes.UUIDV4,
+      type: DataTypes.UUID, //
+      defaultValue: DataTypes.UUIDV4,//Generador de ID
       allowNull: false,  //NO se permiten valores nulos para ese campo. Campo Obligatorio!
       primaryKey: true
     },

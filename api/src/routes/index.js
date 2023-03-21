@@ -1,27 +1,27 @@
 const { Router } = require('express');
 // Importar todos los routers;
 // Ejemplo: const authRouter = require('./auth.js');
-const { getPokemon, getPokemonId, getPokemonidDB } = require('../funtions/functionpokemon.js')
+const { getPokemons, getPokemonsName, getPokemonsId } = require('../funtions/functionpokemon.js')
 const { getTypePokemon } = require('../funtions/functiontypes.js')
 
 const router = Router();
-
 // Configurar los routers
 // Ejemplo: router.use('/auth', authRouter);
 
+//GET Ruta para el llamado de los pokemons de la API y de la DB
+router.get('/pokemons', getPokemons);
 
-//GET Ruta de Los 100 pokemones que llame en controller
-router.get('/pokemons', getPokemon);
+//GET Por ID de Api y DB
+router.get('/pokemons/:idPokemon', getPokemonsId );
 
-//GET ID   
-router.get('/pokemons/:id', getPokemonId); //De la API
-router.get('/pokemons/:id', getPokemonidDB);//De la DB
-
-//GET Por Nombre
+//GET Por Nombre de Api y DB
+router.get('/pokemons/name?', getPokemonsName ) //revisar tolowercase por si se ingresa name con mayuscula
 
 //GET Por Types
-router.get('/types', getTypePokemon); //revisar
+router.get('/types', getTypePokemon); //revisar, los id van cambiando
 
-//POST 
+//POST Crear
+
+
 
 module.exports = router;

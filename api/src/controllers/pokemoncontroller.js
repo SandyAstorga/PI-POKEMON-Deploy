@@ -1,4 +1,4 @@
-//Aqui ira la llamada a la API 
+//Aqui ira la llamada a la API , la llamada a la DB y la concatenacion de ambos 
 //y la logica para mostrar la informacion que requiero
 const axios = require('axios');
 const { Pokemon, Type } = require('../db');
@@ -89,25 +89,34 @@ async function getPokeApi() { //función asincrónica
 
 //Llamada a la base de datos 
 const getDBPoke = async () => { //Una constante que tiene una funcion asincrona
+  try{ //manejo de errores
   return await Pokemon.findAll({ //Estamos llamando a todo lo que tengamos en nuestra tabla Pokemon
     //findAll() es un metodo de Sequelize 
     include: { //Incluyendo nuestro modelo Type
-      model: Type,
       attributes: ["name"],
+      model: Type,
       through: {
         attributes: [],
       },
     },
   });
+} catch{
+  console.log(error);
+  }
 };
 
 //Concatenamos los datos de la API y la Base de Datos para poder visualizarlos todos  
 const getAllPokemon  = async () => { //constante con funcion asincrona 
+  try{ //manejo de errores
   const apiInfo = await getPokeApi(); //Guardamos la primera funcion donde esta el llamado a la API
 	const dbInfo = await getDBPoke(); //Guardamos la segunda funcion del llamado a la base de datos 
 	const allInfo = [...apiInfo, ...dbInfo]; //Los concatenamos con un spread operator
   
 	return allInfo; //Los retornamos 
+  }
+  catch{
+    console.log(error);
+  }
 }
 
 

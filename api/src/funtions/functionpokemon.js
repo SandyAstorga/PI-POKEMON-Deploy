@@ -55,6 +55,7 @@ const getPokemonsApi = async (id, name) => {
         //guardamos en una constante el resultado de axios por id a la API
 
         if (name) {
+            // name = name.toLowerCase();
             //Si tenemos el parametro name se hace tro llamado pero ahora por nombra a la API
             //Se guarda en la constante pokemonSearch
             pokemonSearch = await axios.get(
@@ -78,7 +79,7 @@ const getPokemonsApi = async (id, name) => {
                 speed: data.stats[5].base_stat,
                 height: data.height,
                 weight: data.weight,
-                types: data.types.map((typ) => typ.type.name),
+                types: data.types.map((typ) =>  typ.type.name),
             };
         } else {
             throw new Error("Error"); //Si algo sale mal en el if lanza un error
@@ -94,6 +95,7 @@ const getPokemonsDB = async (id, name) => {
     //Recibe por parametros ID y Name
     try { //Manejo de errores para que no rompa 
         if (name) { //Si tenemos el parametro name
+            // name = name.toLowerCase();
             const searchPokemon = await Pokemon.findOne({ 
                 //Creamos una constante donde se realizara la busqueda en la base de datos de mi modelo Pokemon
                 //Lo que hace el metodo findOne() de Sequelize es que obtiene la primera entrada que encuentra
@@ -153,6 +155,7 @@ const getPokemonsName = async (req, res) => { //Funcion asincronica
     try { //Manejo de errores 
         const { name } = req.query; //Metodo parametro Name por query
         if (name) { //En la condicional si tenemos name 
+            // name = name.toLowerCase();
             const pokemonByApi = await getPokemonsApi(name);
         //Guardamos en una constante la espera a la llamada de la funcion getPokemonsApi(De la POKEAPI) y le pasamos el parametro name
             const pokemonByDB = await getPokemonsDB(name); //undefined, name?
@@ -176,10 +179,42 @@ const getPokemonsName = async (req, res) => { //Funcion asincronica
     }
 };
 
-//Funcion para Crear un pokemon pendiente 
+//Funcion para Crear un pokemon pendiente
+const postPokemon = async (req, res) => { //Funcion asincrona
+    try { //Manejo de Errores
+        const { name, types, image, attack, weight, height, hp, speed, defense } = req.body;
+        //destructuración para extraer las propiedades que se solicitaran al usuario
+
+        const createPoke = await Pokemon.create({ 
+            //Crea un nuevo registo en la DB del modelo Pokemon 
+            name,
+            // types,
+            image,
+            attack,
+            weight,
+            height,
+            hp,
+            speed,
+            defense,
+        });
+
+        const pokemonTypes = await Type.findOne({
+            //En esta variable esperamos por el modelo Type a que encuentre 
+            //un registro donde el nombre es igual al valor de la variable name
+            where: { name: types },//type
+        });
+
+        createPoke.addType(pokemonTypes);
+        //Al registro creado de agraga el valor type del los modelos en la DB
+        return res.status(200).send("Felicidades!! Has creado a tu Pokemon");
+    } catch (error) {
+        res.status(400).json('Error al crear Pokemon');
+    }
+};
 
 module.exports = {
     getPokemons,
     getPokemonsName,
     getPokemonsId,
+    postPokemon
 };

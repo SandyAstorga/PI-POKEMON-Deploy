@@ -24,7 +24,7 @@ const getPokemons = async (req, res) => {
 //             const pokeInfo = {//Guardamos en una variable los datos que queremos mostrar
 //                 id: data.id,
 //                 name: data.name,
-//                 image: data.sprites.other["official-artwork"].front_default,
+//                 image: data.sprites.other["dream_world"].front_default,
 //                 hp: data.stats[0].base_stat,
 //                 attack: data.stats[1].base_stat,
 //                 defense: data.stats[2].base_stat,
@@ -45,10 +45,10 @@ const getPokemons = async (req, res) => {
 const getPokemonsApi = async (id, name) => {
     //Funcion asincrona que devuelve una promesa
     //Recibe por parametros ID y Name
+    // const { id } = req.params;
+    // const { name } = req.query;
     try {
-        //Manejo deerrores
-        // const { id } = req.params;
-        // const { name } = req.query;
+        //Manejo de errores
         const pokemonSearch = await axios.get(
             `https://pokeapi.co/api/v2/pokemon/${id}`
         );
@@ -64,7 +64,7 @@ const getPokemonsApi = async (id, name) => {
         }
 
         if (pokemonSearch) {
-            //Con este if verificamos si la constante tiene algun valos ya sea por ID o por Name
+            //Con este if verificamos si la constante tiene algun valor ya sea por ID o por Name
             let data = pokemonSearch.data;
             //En esta variable guarda el resultado de pokemonSearh y accede a la data
 
@@ -72,7 +72,7 @@ const getPokemonsApi = async (id, name) => {
                 //retorna el objeto con la info que requiero
                 id: data.id,
                 name: data.name,
-                image: data.sprites.other["official-artwork"].front_default,
+                image: data.sprites.other["dream_world"].front_default,
                 hp: data.stats[0].base_stat,
                 attack: data.stats[1].base_stat,
                 defense: data.stats[2].base_stat,
@@ -110,7 +110,6 @@ const getPokemonsDB = async (id, name) => {
             });
             return searchPokemon; //Una ves hecho esto retorna esa constante 
         }
-
         if (id) { //Si tenemos el parametro Id
             const searchPokemon = await Pokemon.findOne({
                 //Creamos una constante donde se realizara la busqueda en la base de datos de mi modelo Pokemon
@@ -177,6 +176,16 @@ const getPokemonsName = async (req, res) => { //Funcion asincronica
     } catch (error) {
         console.log(error); //En caso de error
     }
+    // const {name} = req.query.name
+    // let allPokes = await getPokemons();
+    // if(name){
+    //     let pokemonsName = await allpokes.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
+    //     pokemonsName.length?
+    //     res.status(200).json(pokemonsName) :
+    //     res.status(404).json(`Pokemon ${name} no encontrado`);
+    // }else{
+    //     res.status(200).send(allPokes)
+    // }
 };
 
 //Funcion para Crear un pokemon pendiente
@@ -184,10 +193,18 @@ const postPokemon = async (req, res) => { //Funcion asincrona
     try { //Manejo de Errores
         const { name, types, image, attack, weight, height, hp, speed, defense } = req.body;
         //destructuración para extraer las propiedades que se solicitaran al usuario
+        
+        if(!name || !types || !image || !attack || !weight || !height ||!hp || !speed || !defense){
+            return res.status(400).send("Faltan datos por completar");
+        }
+        const nameLower = name.trim().toLowerCase(); 
+        //Lo almaceno con minuscula en Db
+
+        const typesLower = types?.map((type) => type.toLowerCase());//****
 
         const createPoke = await Pokemon.create({ 
             //Crea un nuevo registo en la DB del modelo Pokemon 
-            name,
+            name: nameLower,
             // types,
             image,
             attack,
@@ -198,15 +215,24 @@ const postPokemon = async (req, res) => { //Funcion asincrona
             defense,
         });
 
-        const pokemonTypes = await Type.findOne({
+        const pokemonTypes = await Type.findAll({
             //En esta variable esperamos por el modelo Type a que encuentre 
-            //un registro donde el nombre es igual al valor de la variable name
-            where: { name: types },//type
+            //un registro donde el nombre es igual al nombre de type
+            where: { name: typesLower },//type
         });
+        // const pokemonId = pokemonTypes?.map((p) => p.id);
 
-        createPoke.addType(pokemonTypes);
-        //Al registro creado de agraga el valor type del los modelos en la DB
-        return res.status(200).send("Felicidades!! Has creado a tu Pokemon");
+        await createPoke.addType(pokemonTypes);
+        //Al registro creado se agraga el valor type del los modelos en la DB
+
+        const newPokemon = await Pokemon.findOne({ ///***
+            where: { name: nameLower },
+            include: [{
+                model: Type,
+                attributes: ['name']
+        }]
+        });
+        return res.status(200).send(newPokemon);
     } catch (error) {
         res.status(400).json('Error al crear Pokemon');
     }

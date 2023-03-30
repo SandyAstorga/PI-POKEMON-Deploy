@@ -49,7 +49,7 @@ const getTypes = async () => { //Funcion asincrona
         for (let i = 0; i < typeDB.length; i++) { //iteramos la data. results 
         await Type.findOrCreate({ where: { name: typeDB[i].name } });
         //Esperamos al modelo Type y con el metodo findOrCreate() si lo encuentra no lo crea
-        //En caso de no encontrarlo lo crea posicionandao cada type en la comumna name
+        //En caso de no encontrarlo lo crea posicionando cada type en la columna name
         }
         // Volvemos a buscar todos los tipos en la base de datos para devolverlos
         types = await Type.findAll(); //Una vez creados se vuelve a realizar la busqueda 

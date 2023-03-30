@@ -7,9 +7,10 @@ module.exports = (sequelize) => {
   // defino el modelo de los types
   sequelize.define('type',{
     id: {
-      // type: DataTypes.INTEGER,
-      type: DataTypes.UUID, //
-      defaultValue: DataTypes.UUIDV4,//Generador de ID
+      type: DataTypes.INTEGER,
+      autoIncrement: true,
+      // type: DataTypes.UUID, //
+      // defaultValue: DataTypes.UUIDV4,//Generador de ID
       allowNull: false,  //NO se permiten valores nulos para ese campo. Campo Obligatorio!
       primaryKey: true
     },

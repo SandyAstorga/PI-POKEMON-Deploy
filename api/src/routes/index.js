@@ -16,9 +16,10 @@ router.get('/pokemons/:idPokemon', getPokemonsId );
 
 //GET Por Nombre de Api y DB
 router.get('/pokemons/name', getPokemonsName ); //revisar tolowercase por si se ingresa name con mayuscula
+//No filtra por nombre en la base de datos 
 
 //GET Por Types
-router.get('/types', getTypePokemon); //revisar, los id van cambiando
+router.get('/types', getTypePokemon); //revisar
 
 //POST Crear
 router.post('/pokemons', postPokemon);//Revisar...

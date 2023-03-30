@@ -75,7 +75,7 @@ async function getPokeApi() { //función asincrónica
           id: data.id,
           name: data.name,
           types: data.types.map((typ) => typ.type.name),
-          image: data.sprites.other["official-artwork"].front_default,
+          image: data.sprites.other["dream_world"].front_default,
         }; //todo esto se almacena en la constante apiURL 
       })
     )

@@ -1,8 +1,7 @@
 .poke_container{
-    border: 1px solid blueviolet;
     display: flex;
     flex-direction: row;
-    border-radius: 15px;
     flex-wrap: wrap;
-    gap: 1em;
+    margin-top: 50px;
+    margin-left: 99px;
 }

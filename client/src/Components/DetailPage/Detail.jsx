@@ -1,5 +1,5 @@
 
-const MyDt = () => {
+const Detail = () => {
     return (
         <>
         <h1>Mi Detail</h1>
@@ -7,4 +7,4 @@ const MyDt = () => {
     )
 }
 
-export default MyDt;
+export default Detail;

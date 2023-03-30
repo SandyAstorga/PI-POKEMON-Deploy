@@ -11,7 +11,7 @@
     position: relative;
     margin: 0 auto;
     top: 345px;
-    letter-spacing: 3px;
+    letter-spacing: 4px;
     font-family:fantasy;
     border: 0;
     background-image: linear-gradient(150deg,
@@ -21,22 +21,22 @@
     );
     border-radius: 8px;
     color: #fff;
-    display: flex;
+    display:flexbox;
     font-size: 18px;
-    padding: 4px;
+    padding: 16px 0px;
     cursor: pointer;
     transition: .3s;
 }
 
 .button_span{
-    background-color: #111;
+    /* background-color: #111; */
     padding: 16px 24px;
     border-radius: 6px;
     transition: .3s;
 }
 
 .button_span:hover{
-    background: none;
+    background: #111;
 }
 
 .button_enter:active{

@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, useLocation } from 'react-router-dom';
-import { MyHome, MyLp, MyDt, MyFrm } from './Components' 
+import { Landing, Home, Form, Detail } from './Components/indexcomponents' 
 //importamos en una sola linea, destructuring
 import NavBar from './Components/NavBar/NavBar';
 
@@ -15,10 +15,10 @@ const location = useLocation();
     <div className="App">
       {location.pathname !== '/' && <NavBar />}
       {/* renderiza el componente (NavBar) condicionalmente. */}
-      <Route exact path="/" component={MyLp} />
-      <Route path="/home" component={MyHome} />
-      <Route path="/detail" component={MyDt} />
-      <Route path="/create" component={MyFrm} />
+      <Route exact path="/" component={Landing} />
+      <Route exact path="/home" component={Home} />
+      <Route exact path="/detail" component={Detail} />
+      <Route exact path="/create" component={Form} />
     </div>
   );
 }

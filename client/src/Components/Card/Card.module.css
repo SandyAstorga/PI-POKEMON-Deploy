@@ -1,7 +1,18 @@
-.poke_card{
-    border: 1px solid blueviolet;
-    width: fit-content;
-    height: fit-content;
-    border-radius: 10px;
+.container{
+    /* display: flex; */
+    flex-direction:column;
+    justify-content: space-between;
+    width: 240px;
+    height: 350px;
+    /* background-image: url("../../pictures/card/card.png"); */
+    box-shadow: 8px 8px 8px #252525;
+    margin-bottom: 25px;
+    margin-left: 20px;
+    position: relative;
+    border-radius: 18px;
+}
 
+.poke_img{
+    width: 200px;
+    height: 150px;
 }

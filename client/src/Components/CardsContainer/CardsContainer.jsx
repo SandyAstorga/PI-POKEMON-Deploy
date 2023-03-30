@@ -4,19 +4,18 @@ import style from './CardsContainer.module.css'
 
 const CardsConteiner = () => {
     
-    const pokemons = useSelector(state=>state.pokemons)
+    const allpokemons = useSelector(state=>state.pokemons)
 
     return(
         <div className={style.poke_container}>
-            {pokemons.map(pokemon=>{
+            {allpokemons.map(pokemon => {
                 return <Card
-                id = {pokemon.id}
+                key={pokemon.id}
+                // id = {pokemon.id}
                 name = {pokemon.name}
                 types = {pokemon.types}
                 image = {pokemon.image}                
-                />
-
-                
+                />                
             })}
         </div>
     )

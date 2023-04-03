@@ -1,9 +1,10 @@
 import React from 'react';
 import style  from '../Card/Card.module.css'
+//Aqui es donde hacemos el componente Card que tendra los 3 props que va a mostrar
 
 const Card = ({name, types, image}) => { //destructiring
     return(
-        <div className={style.container}>
+        <div >
             <br/> 
             <p>{name}</p>
             <br/>
@@ -11,6 +12,7 @@ const Card = ({name, types, image}) => { //destructiring
             <br/>
             <p>{types[0]}</p>
             <p>{types[1]}</p>
+        
         </div>
     )
 };

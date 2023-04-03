@@ -1,7 +1,12 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { getTypePokemon, postPokemon } from "../../Redux/actions";
+
 import validate from "./validation";
 
 const Form = () => {
+const dispatch = useDispatch();
+const types = useSelector((state) => state.types);
 
     const [ form, setForm ] = useState({
     name: "",
@@ -15,18 +20,45 @@ const Form = () => {
     types: [],
     });
 
-    const changeHandler = (event) =>{
+    useEffect(() => { //Despacha los types 
+        dispatch(getTypePokemon());
+    },[dispatch])
+
+    
+    const changeHandler = (event) =>{ //Guarda lo que se escribe en el input 
         const property = event.target.name;
         const value = event.target.value;
-
-        setForm({...form,[property]:value});
-
-        validate({...form,[property]:value});
+        setForm({
+            ...form,
+            [property]:value});
+        validate({
+            ...form,
+            [property]:value});
     };
 
-    const submitHandler = (event) => { 
+    const submitHandler = (e) => { 
         // Evita que recargue la pagina al dar click en submit
-        event.preventDefault()
+        e.preventDefault();
+        dispatch(postPokemon(form));
+        alert("Personaje creado con exito");
+        setForm({
+            name: "",
+            image: "",
+            hp: "",
+            attack: "",
+            defense: "",
+            weight: "",
+            height: "",
+            speed: "",
+            types: [],
+        });
+    }
+
+    const handlerSelect = (e) => { //Muestra los types que selecciona el usuario para que vea los que eligio
+        setForm({
+            ...form,
+            types: [...form.types, e.target.value],
+        });
     }
 
     return (
@@ -66,12 +98,20 @@ const Form = () => {
                 <label>Height: </label>
                 <input type="text" value={form.height} onChange={changeHandler} name="height"/>
             </div>
-            <div>
                 <label>Type: </label>
-            </div>
+            {/* <p className="types"> */}
+                <select className="types" onChange={handlerSelect}>
+                {/* <option value="typespoke">Select</option> */}
+                    {types?.map((type) => (
+                        <option value={type.name}>{type.name}</option>
+                    ))}
+                </select>
+                    <li>{form.types.map((type) => type + " , ")}</li>
+            {/* </p> */}
             <button>Submit</button>
         </form>
     )
 }
 
 export default Form;
+

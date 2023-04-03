@@ -15,6 +15,8 @@ const location = useLocation();
     <div className="App">
       {location.pathname !== '/' && <NavBar />}
       {/* renderiza el componente (NavBar) condicionalmente. */}
+      {/* Esto quere decir que si la url  no es igual a "/" entonces renderice NavBar */}
+      {/* Aqui abajo estan las rutas a renderizar  */}
       <Route exact path="/" component={Landing} />
       <Route exact path="/home" component={Home} />
       <Route exact path="/detail" component={Detail} />

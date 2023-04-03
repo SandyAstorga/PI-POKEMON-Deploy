@@ -57,7 +57,7 @@ const getTypes = async () => { //Funcion asincrona
         return types; //Los retornamos 
     } catch (error) {
       console.log(error); //En caso de Error
-    }
+    }   
 };
 
 

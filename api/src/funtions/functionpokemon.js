@@ -41,7 +41,7 @@ const getPokemons = async (req, res) => {
 //     }
 // };
 
-//Funcion para traer Pokemons por ID y por NAME de la POKEAPI
+// Funcion para traer Pokemons por ID y por NAME de la POKEAPI
 const getPokemonsApi = async (id, name) => {
     //Funcion asincrona que devuelve una promesa
     //Recibe por parametros ID y Name
@@ -119,7 +119,7 @@ const getPokemonsDB = async (id, name) => {
                     id: id, //id coincida con id
                 },
                 include: { //E incluya los atributos name del Modelo Type 
-                    attributes: ["name"],
+                    attributes: ["id"],
                     model: Type,
                 },
             });
@@ -152,7 +152,7 @@ const getPokemonsId = async (req, res) => { //Funcion asincrona
 //Funcion buscar pokemons por NAME en la Api y en la DB (AMBOS)
 const getPokemonsName = async (req, res) => { //Funcion asincronica
     try { //Manejo de errores 
-        const { name } = req.query; //Metodo parametro Name por query
+        const name  = req.query.name; //Metodo parametro Name por query
         if (name) { //En la condicional si tenemos name 
             // name = name.toLowerCase();
             const pokemonByApi = await getPokemonsApi(name);
@@ -188,10 +188,26 @@ const getPokemonsName = async (req, res) => { //Funcion asincronica
     // }
 };
 
+// const getPokemonsName = async (req, res) => {
+//     const name = req.query.name;
+//     const allPokemon = await getAllPokemon(); 
+
+//     if (name) {
+//         const pokemonName = allPokemon.filter(el => el.name.toLowerCase().includes(name.toLowerCase()));
+//         if(pokemonName){
+//             res.status(200).send(pokemonName)
+//             res.status(400).send(`Pokemon ${name} no encontrado`)
+//         }else{
+//             res.status(200).send(allPokemon)
+//         }
+        
+//     }
+// }
+
 //Funcion para Crear un pokemon pendiente
 const postPokemon = async (req, res) => { //Funcion asincrona
     try { //Manejo de Errores
-        const { name, types, image, attack, weight, height, hp, speed, defense } = req.body;
+        const { name, types, image, attack, weight, height, hp, speed, defense, createdInDb } = req.body;
         //destructuración para extraer las propiedades que se solicitaran al usuario
         
         if(!name || !types || !image || !attack || !weight || !height ||!hp || !speed || !defense){
@@ -213,6 +229,7 @@ const postPokemon = async (req, res) => { //Funcion asincrona
             hp,
             speed,
             defense,
+            createdInDb
         });
 
         const pokemonTypes = await Type.findAll({
@@ -222,7 +239,7 @@ const postPokemon = async (req, res) => { //Funcion asincrona
         });
         // const pokemonId = pokemonTypes?.map((p) => p.id);
 
-        await createPoke.addType(pokemonTypes);
+        await createPoke.addType(pokemonTypes); //add metodo de sequelize
         //Al registro creado se agraga el valor type del los modelos en la DB
 
         const newPokemon = await Pokemon.findOne({ ///***
@@ -234,7 +251,8 @@ const postPokemon = async (req, res) => { //Funcion asincrona
         });
         return res.status(200).send(newPokemon);
     } catch (error) {
-        res.status(400).json('Error al crear Pokemon');
+        // res.status(400).json('Error al crear Pokemon');
+        res.status(400).json({ msj: `${error}` });
     }
 };
 

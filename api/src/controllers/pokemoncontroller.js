@@ -57,7 +57,7 @@ const { Pokemon, Type } = require('../db');
 //Aqui estamos llamando a la API
 async function getPokeApi() { //función asincrónica
   try { //manejo de errores.
-    const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=100");
+    const response = await axios.get("https://pokeapi.co/api/v2/pokemon?limit=120");
     //solicitud a la API utilizando el método axios y se almacena en la constante response
     const data = response.data;
     //se extraen los datos de la respuesta utilizando la propiedad data del objeto response 
@@ -74,8 +74,14 @@ async function getPokeApi() { //función asincrónica
         return { //Cuando se resuelve cada Promesa, devuelve un objeto que contiene información de cada pokemon
           id: data.id,
           name: data.name,
-          types: data.types.map((typ) => typ.type.name),
           image: data.sprites.other["dream_world"].front_default,
+          hp: data.stats[0].base_stat,
+          attack: data.stats[1].base_stat,
+          defense: data.stats[2].base_stat,
+          speed: data.stats[5].base_stat,
+          height: data.height,
+          weight: data.weight,
+          types: data.types.map((typ) => typ.type.name),
         }; //todo esto se almacena en la constante apiURL 
       })
     )
@@ -84,8 +90,6 @@ async function getPokeApi() { //función asincrónica
     console.log(error);
   };
 };
-
-
 
 //Llamada a la base de datos 
 const getDBPoke = async () => { //Una constante que tiene una funcion asincrona
@@ -110,7 +114,7 @@ const getAllPokemon  = async () => { //constante con funcion asincrona
   try{ //manejo de errores
   const apiInfo = await getPokeApi(); //Guardamos la primera funcion donde esta el llamado a la API
 	const dbInfo = await getDBPoke(); //Guardamos la segunda funcion del llamado a la base de datos 
-	const allInfo = [...apiInfo, ...dbInfo]; //Los concatenamos con un spread operator
+	const allInfo = [...apiInfo, ...dbInfo]; //Los concatenamos con un spread operator o puede ser con .concat()
   
 	return allInfo; //Los retornamos 
   }
@@ -118,7 +122,6 @@ const getAllPokemon  = async () => { //constante con funcion asincrona
     console.log(error);
   }
 }
-
 
 //Exportamos 
 module.exports = {

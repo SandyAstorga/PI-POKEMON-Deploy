@@ -18,11 +18,11 @@ module.exports = (sequelize) => {
     },
     name: {
       type: DataTypes.STRING,
-      allowNull: false,
+      allowNull: false, //De caracter obligarorio 
       unique: true //Esto asegura que cada valor sea único y evita que se inserten duplicados.
     },
     imagen: {
-      type: DataTypes.INTEGER,
+      type: DataTypes.STRING,
       // allowNull: false,
     },
     hp: {
@@ -46,6 +46,11 @@ module.exports = (sequelize) => {
     weight: {
       type: DataTypes.INTEGER,
     },
+    createdInDb: { //Manera mas rapida de encontrar pokemon creado en db
+      type: DataTypes.BOOLEAN,
+      defaultValue: true,
+      allowNull: false
+    }
   },
   {
     timestamps: false

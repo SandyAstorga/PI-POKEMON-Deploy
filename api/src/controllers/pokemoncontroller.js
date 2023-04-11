@@ -94,16 +94,31 @@ async function getPokeApi() { //función asincrónica
 //Llamada a la base de datos 
 const getDBPoke = async () => { //Una constante que tiene una funcion asincrona
   try{ //manejo de errores
-  return await Pokemon.findAll({ //Estamos llamando a todo lo que tengamos en nuestra tabla Pokemon
+  const data =  (await Pokemon.findAll({ //Estamos llamando a todo lo que tengamos en nuestra tabla Pokemon
     //findAll() es un metodo de Sequelize 
     include: { //Incluyendo nuestro modelo Type
-      attributes: ["name"],
       model: Type,
+      attributes: ["name"],
       through: {
         attributes: [],
       },
     },
+  })).map(pokemon => {
+    const json = pokemon.toJSON();
+    return{
+      ...json,
+      types: json.types.map( type => type.name)
+    }
   });
+  return data;
+  /* Esto ayudo a eviar el error de "Objects are not valid as a React child. 
+  If you meant to render a collection of children, use an array instead"
+  se utiliza map para transformar un array de objetos que representan los pokemones y sus tipos. 
+  Cada objeto se convierte a un objeto JSON, se copian todas sus propiedades en un nuevo objeto 
+  y se transforma el array de types en un array de strings que contienen los nombres de los tipos. 
+  El resultado es un nuevo array de objetos con la misma información que el array original,
+  pero con una transformación en el campo types.*/
+
 } catch{
   console.log(error);
   }

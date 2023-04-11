@@ -12,6 +12,7 @@ export const GET_POKEMON_NAME = "GET_POKEMON_NAME";
 export const POST_POKEMON = "POST_POKEMON";
 export const FILTER_BY_ATTACK = "FILTER_BY_ATTACK";
 export const SORT = "SORT";
+export const GET_DETAILS = "GET_DETAILS";
 
 
 export const getPokemons = () => { //mis pokemones desde el back
@@ -76,19 +77,31 @@ export const postPokemon = (payload) => {
     }
 }
 
+export function getDetail(idPokemon) {
+    return async function (dispatch) {
+        try {
+            var pokedata = await axios.get("http://localhost:3001/pokemons" + idPokemon);
+            return dispatch({
+                type: GET_DETAILS,
+                payload: pokedata.data
+            })
+        } catch (error) {
+            console.log(error)
+        }
+    }
+}
+
 // export const reloadPokemons = () => { //NOOOOOOOOOOOOOO
 //     return {
 //         type: RELOAD_POKEMONS,
 //     }
 // }
 
-
-export function searchPokemonName(name) { //Nooooo
-    name = name.toLowerCase()
+export function searchPokemonName() { //Nooooo
+    // name = name.toLowerCase()
     return async function (dispatch) {
         try {
-            const infopokename = await axios.get(`http://localhost:3001/pokemons?name=${name}`) 
-
+            const infopokename = await axios.get("http://localhost:3001/pokemons?name=") 
             return dispatch({
                 type: GET_POKEMON_NAME,
                 payload: infopokename.data

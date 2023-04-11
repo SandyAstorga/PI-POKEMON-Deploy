@@ -1,9 +1,10 @@
-import { GET_POKEMONS, FILTER_BY_TYPE, FILTER_CREATE, GET_POKEMON_NAME, POST_POKEMON, GET_TYPE, FILTER_BY_ATTACK, SORT } from "./actions";
+import { GET_POKEMONS, FILTER_BY_TYPE, FILTER_CREATE, GET_POKEMON_NAME, POST_POKEMON, GET_TYPE, FILTER_BY_ATTACK, SORT, GET_DETAILS } from "./actions";
 
 const initialState = {
     pokemons: [],
     allpokemons: [],
-    types: [], 
+    types: [],
+    detail: []
         
 }
 // un reducer es una función pura que recibe una acción y el estado actual de la aplicación, 
@@ -90,6 +91,12 @@ const rootReducer = (state = initialState, action) => { //estado inicial
                 ...state,
                 types: action.payload,
             };
+        
+        case GET_DETAILS:
+            return {
+                ...state,
+                detail: action.payload
+            }
         
         // case RELOAD_POKEMONS:
         //     return {

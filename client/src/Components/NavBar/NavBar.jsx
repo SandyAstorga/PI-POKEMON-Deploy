@@ -13,11 +13,12 @@ const NavBar = () => {
         dispatch(getPokemons());
     },[dispatch])
 
-    const [name, setName] = useState('')
+    const [name, setName] = useState("")
 
     const handlerInputChange = (e) =>{
         e.preventDefault()
         setName(e.target.value)
+        console.log(name);
     }
     
     const handlerSubmit = (e) => {
@@ -25,10 +26,10 @@ const NavBar = () => {
         dispatch(searchPokemonName(name))
     }
     
-    const handleClick = (e) => {
-        e.preventDefault();
-        dispatch(getPokemons())
-    }
+    // const handleClick = (e) => {
+    //     e.preventDefault();
+    //     dispatch(getPokemons())
+    // }
 
     return(
         <div className={style.navContainer}>

@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react"; //Hooks
 import { useDispatch, useSelector } from "react-redux"; //Hooks
 import { getPokemons, filterPokemonsByTypes, filterCreate, getTypePokemon, filterByAttack, sort } from "../../Redux/actions"; //Actions
+import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import style from '../Card/Card.module.css'
@@ -111,16 +112,17 @@ const Home = () => {
             {currentPokemons?.map((pokemon) => {
                 return (
                     <div className={style.container}>
+                        <Link to={"/detail" + pokemon.id}>
                             <Card
                                 key={pokemon.id}
                                 name={pokemon.name}
-                                image={pokemon.image}
+                                image={pokemon.img ? pokemon.img : pokemon.image}
                                 types={pokemon.types}
                             />
+                        </Link>
                     </div>
                 );
             })} 
-            
             {/* <CardsConteiner/> */}
         </div>
     )

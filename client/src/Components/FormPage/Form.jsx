@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTypePokemon, postPokemon } from "../../Redux/actions";
-
+import style from "./Form.module.css"
 import validate from "./validation";
 
 const Form = () => {
@@ -10,7 +10,7 @@ const types = useSelector((state) => state.types);
 
     const [ form, setForm ] = useState({
     name: "",
-    image: "",
+    imagen: "",
     hp: "",
     attack: "",
     defense: "",
@@ -43,7 +43,7 @@ const types = useSelector((state) => state.types);
         alert("Personaje creado con exito");
         setForm({
             name: "",
-            image: "",
+            imagen: "",
             hp: "",
             attack: "",
             defense: "",
@@ -67,38 +67,38 @@ const types = useSelector((state) => state.types);
                 Create your Pokemon!
             </h1>
             <div>
-                <label>Name: </label>
-                <input type="text" value={form.name} onChange={changeHandler} name="name"/>
+                <label className={style.labels}>Name: </label>
+                <input className={style.inputs} type="text" value={form.name} onChange={changeHandler} name="name"/>
             </div>
             <div>
-                <label>Image: </label>
-                <input type="text" value={form.image} onChange={changeHandler} name="image"/>
+                <label className={style.labels}>Imagen: </label>
+                <input className={style.inputs} type="text" value={form.imagen} onChange={changeHandler} name="imagen"/>
             </div>
             <div>
-                <label>Life: </label>
-                <input type="text" value={form.hp} onChange={changeHandler} name="hp"/>
+                <label className={style.labels}>Life: </label>
+                <input className={style.inputs} type="text" value={form.hp} onChange={changeHandler} name="hp"/>
             </div>
             <div>
-                <label>Attack: </label>
-                <input type="text" value={form.attack} onChange={changeHandler} name="attack"/>
+                <label className={style.labels}>Attack: </label>
+                <input className={style.inputs} type="text" value={form.attack} onChange={changeHandler} name="attack"/>
             </div>
             <div>
-                <label>Defense: </label>
-                <input type="text" value={form.defense} onChange={changeHandler} name="defense"/>
+                <label className={style.labels}>Defense: </label>
+                <input className={style.inputs} type="text" value={form.defense} onChange={changeHandler} name="defense"/>
             </div>
             <div>
-                <label>Speed: </label>
-                <input type="text" value={form.speed} onChange={changeHandler} name="speed"/>
+                <label className={style.labels}>Speed: </label>
+                <input className={style.inputs} type="text" value={form.speed} onChange={changeHandler} name="speed"/>
             </div>
             <div>
-                <label>Weight: </label>
-                <input type="text" value={form.weight} onChange={changeHandler} name="weight"/>
+                <label className={style.labels}>Weight: </label>
+                <input className={style.inputs} type="text" value={form.weight} onChange={changeHandler} name="weight"/>
             </div>
             <div>
-                <label>Height: </label>
-                <input type="text" value={form.height} onChange={changeHandler} name="height"/>
+                <label className={style.labels}>Height: </label>
+                <input className={style.inputs} type="text" value={form.height} onChange={changeHandler} name="height"/>
             </div>
-                <label>Type: </label>
+                <label className={style.labels}>Type: </label>
             {/* <p className="types"> */}
                 <select className="types" onChange={handlerSelect}>
                 {/* <option value="typespoke">Select</option> */}
@@ -108,7 +108,9 @@ const types = useSelector((state) => state.types);
                 </select>
                     <li>{form.types.map((type) => type + " , ")}</li>
             {/* </p> */}
-            <button>Submit</button>
+            <button className={style.submit}>
+                <span className={style.submit_span}>Submit</span>
+            </button>
         </form>
     )
 }

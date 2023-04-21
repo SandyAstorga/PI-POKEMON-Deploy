@@ -116,7 +116,8 @@ const Home = () => {
                             <Card
                                 key={pokemon.id}
                                 name={pokemon.name}
-                                image={pokemon.img ? pokemon.img : pokemon.image}
+                                imagen={pokemon.image ? pokemon.image : pokemon.imagen }
+                                //Si hay image de la api (mostrar), si no,aun asi se muestra la del poke que se creo
                                 types={pokemon.types}
                             />
                         </Link>

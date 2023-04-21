@@ -1,0 +1,45 @@
+.inputs {
+    margin-top: 0.3%;
+    border-radius: 6px;
+    padding: 5px;
+    margin-left: 2%;
+}
+
+.labels {
+    display: inline-block;
+    width: 80px;
+}
+
+.submit {
+    position: relative;
+    margin: 2 auto;
+    top: -5px;
+    letter-spacing: 4px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    border: 0;
+    background-image: linear-gradient(150deg,
+            #c501e2,
+            #9a27f7,
+            #6664ff);
+    border-radius: 8px;
+    color: #fff;
+    display: flexbox;
+    font-size: 16px;
+    padding: 10px 0px;
+    cursor: pointer;
+    transition: .3s;
+}
+
+.submit_span {
+    padding: 10px 24px;
+    border-radius: 6px;
+    transition: .3s;
+}
+
+.submit_span:hover {
+    background: #111;
+}
+
+.submit_nav:active {
+    transform: scale(0.9);
+}

@@ -97,11 +97,12 @@ export function getDetail(idPokemon) {
 //     }
 // }
 
-export function searchPokemonName() { //Nooooo
+export function searchPokemonName(name) { //Nooooo
+    //name llega por payload
     // name = name.toLowerCase()
     return async function (dispatch) {
         try {
-            const infopokename = await axios.get("http://localhost:3001/pokemons?name=") 
+            const infopokename = await axios.get("http://localhost:3001/pokemons?name=" + name) 
             return dispatch({
                 type: GET_POKEMON_NAME,
                 payload: infopokename.data

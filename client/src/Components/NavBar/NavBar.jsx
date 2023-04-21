@@ -8,23 +8,22 @@ import { searchPokemonName, getPokemons } from "../../Redux/actions";
 
 const NavBar = () => {
     const dispatch = useDispatch();
-
-    useEffect(() => { 
-        dispatch(getPokemons());
-    },[dispatch])
-
     const [name, setName] = useState("")
-
+    
     const handlerInputChange = (e) =>{
         e.preventDefault()
         setName(e.target.value)
-        console.log(name);
+        // console.log(name);
     }
     
     const handlerSubmit = (e) => {
         e.preventDefault()
+        setName("") //ponerlo despues de prevetdefaut para limpiar el input
         dispatch(searchPokemonName(name))
     }
+    useEffect(() => { 
+        dispatch(getPokemons());
+    },[dispatch])
     
     // const handleClick = (e) => {
     //     e.preventDefault();
@@ -47,7 +46,7 @@ const NavBar = () => {
             <button type="submit" onClick={handlerSubmit} className={style.button_nav}>
                 <span className={style.button_span}>Search Pokemon</span>
             </button>
-            <input type="text" placeholder="Name Pokemon"  onChange={handlerInputChange} className={style.input} />
+            <input type="text" value={name} placeholder="Name Pokemon" onChange={handlerInputChange} className={style.input} />
         </div>
     )
 }

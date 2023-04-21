@@ -3,227 +3,34 @@ const { Pokemon, Type } = require("../db");
 const axios = require("axios");
 
 //Funcion donde estan concatenados todos mis datos tanto de la API como de la base de datos
-const getPokemons = async (req, res) => {
-    try {
-        const allPokemon = await getAllPokemon(); //Esperamos por la funcion
-        res.status(200).json(allPokemon); //Si todo esta ok muestra todos los pokemones
-    } catch (error) {
-        return res.status(404).json({ message: error.message });
-        //Si existe algun error mostrar el mensaje de error
+//Busca por name tambien
+const getPokemons = async (req, res) => { 
+    const name =  req.query.name; 
+    let pokemonsAll = await getAllPokemon(); 
+    if(name){
+        let pokemonName = pokemonsAll.filter(el => el.name.toLowerCase().includes(name.toLowerCase())) 
+        pokemonName.length ? 
+        res.status(200).send(pokemonName) :
+        res.status(400).send("Pokemon no encontrado :(")
+    } else {
+        res.status(200).send(pokemonsAll)
     }
-};
+}
 
-//Funcion para traer a los pokemon por ID de la api //Opcion 1...
-// const getPokemonIdApi = async (req, res) => { //Funcion Asincrona
-//     try { //Manejo de errores
-//         const { idPokemon } = req.params; //Definimos ID correspondiente a Params
-//         const pokemonSearch = await axios.get(`https://pokeapi.co/api/v2/pokemon/${idPokemon}`);
-//         //Hacemos el llamado a la API por ID
-//             let data = pokemonSearch.data;
-//             //Guardanos en data el resultado del llamado e ingresar a esa data (esto para axios)
-//             const pokeInfo = {//Guardamos en una variable los datos que queremos mostrar
-//                 id: data.id,
-//                 name: data.name,
-//                 image: data.sprites.other["dream_world"].front_default,
-//                 hp: data.stats[0].base_stat,
-//                 attack: data.stats[1].base_stat,
-//                 defense: data.stats[2].base_stat,
-//                 speed: data.stats[5].base_stat,
-//                 height: data.height,
-//                 weight: data.weight,
-//                 types: data.types.map((typ) => {return { name: typ.type.name}}),
-//             };
-//             return res.status(200).json(pokeInfo); //Respuesta OK mostrar la info
-//             }
-//     catch (error) {
-//         return res.status(404).json('Pokemon no encontrado')
-//         //De lo contrario mostrar el sig. mensaje
-//     }
-// };
+//Funcion para Crear un pokemons
+const postPokemon = async (req, res) => {
 
-// Funcion para traer Pokemons por ID y por NAME de la POKEAPI
-const getPokemonsApi = async (id, name) => {
-    //Funcion asincrona que devuelve una promesa
-    //Recibe por parametros ID y Name
-    // const { id } = req.params;
-    // const { name } = req.query;
-    try {
-        //Manejo de errores
-        const pokemonSearch = await axios.get(
-            `https://pokeapi.co/api/v2/pokemon/${id}`
-        );
-        //guardamos en una constante el resultado de axios por id a la API
+    const { name, types, imagen, attack, weight, height, hp, speed, defense, createdInDb } = req.body;
 
-        if (name) {
-            // name = name.toLowerCase();
-            //Si tenemos el parametro name se hace tro llamado pero ahora por nombra a la API
-            //Se guarda en la constante pokemonSearch
-            pokemonSearch = await axios.get(
-                `https://pokeapi.co/api/v2/pokemon/${name}`
-            );
-        }
-
-        if (pokemonSearch) {
-            //Con este if verificamos si la constante tiene algun valor ya sea por ID o por Name
-            let data = pokemonSearch.data;
-            //En esta variable guarda el resultado de pokemonSearh y accede a la data
-
-            return {
-                //retorna el objeto con la info que requiero
-                id: data.id,
-                name: data.name,
-                image: data.sprites.other["dream_world"].front_default,
-                hp: data.stats[0].base_stat,
-                attack: data.stats[1].base_stat,
-                defense: data.stats[2].base_stat,
-                speed: data.stats[5].base_stat,
-                height: data.height,
-                weight: data.weight,
-                types: data.types.map((typ) =>  typ.type.name),
-            };
-        } else {
-            throw new Error("Error"); //Si algo sale mal en el if lanza un error
-        }
-    } catch (error) {
-        console.log(error); //Si hay algun error dentro del bloque Try, el chatch nos muestra error
-    }
-};
-
-//Funcion para traer Pokemons por ID y por NAME de la DB 
-const getPokemonsDB = async (id, name) => {
-    //Funcion asincrona que devuelve una promesa
-    //Recibe por parametros ID y Name
-    try { //Manejo de errores para que no rompa 
-        if (name) { //Si tenemos el parametro name
-            // name = name.toLowerCase();
-            const searchPokemon = await Pokemon.findOne({ 
-                //Creamos una constante donde se realizara la busqueda en la base de datos de mi modelo Pokemon
-                //Lo que hace el metodo findOne() de Sequelize es que obtiene la primera entrada que encuentra
-                //Con las propiedades especificadas  
-                where: { //Donde 
-                    name: name, //tengamos name y coincida 
-                },
-                include: { //E incluya los atributos name del Modelo Type 
-                    attributes: ["name"],
-                    model: Type,
-                },
-            });
-            return searchPokemon; //Una ves hecho esto retorna esa constante 
-        }
-        if (id) { //Si tenemos el parametro Id
-            const searchPokemon = await Pokemon.findOne({
-                //Creamos una constante donde se realizara la busqueda en la base de datos de mi modelo Pokemon
-                //Lo que hace el metodo findOne() de Sequelize es que obtiene la primera entrada que encuentra
-                //Con las propiedades especificadas  
-                where: { //Donde 
-                    id: id, //id coincida con id
-                },
-                include: { //E incluya los atributos name del Modelo Type 
-                    attributes: ["id"],
-                    model: Type,
-                },
-            });
-            return searchPokemon; //Una ves hecho esto retorna esa constante 
-        }
-    } catch (error) { //En caso de error lo muestra 
-        console.log(error);
-    }
-};
-
-//Funcion buscar Pokemons por ID en Api y DB (AMBOS)
-const getPokemonsId = async (req, res) => { //Funcion asincrona
-    const { idPokemon } = req.params; //Metodo parametro por ID params , dinamico
-    const pokemonByApi = await getPokemonsApi(idPokemon); 
-    //Guardamos en una constante la espera a la llamada de la funcion getPokemonsApi(De la POKEAPI) y le pasamos el parametro Id
-    const pokemonByDB = await getPokemonsDB(idPokemon);
-    //Guardamos en una constante la espera a la llamada de la funcion getPokemonsDB(De la DB) y le pasamos el parametro Id
-
-    if (pokemonByApi) { //En la condicional if decimos que si tenemos el id de la Api
-        res.status(200).json(pokemonByApi); //Nos de un estatus 200 con el json de ese pokemon
-    }
-    if (pokemonByDB) { //En la condicional if decimos que si tenemos el id de la DB
-        res.status(200).json(pokemonByDB); //Nos de un estatus 200 con el json de ese pokemon
-    }
-    if (!pokemonByApi && !pokemonByDB) { //En caso de no tener id de la POKEAPI ni de mi DB 
-        res.status(400).send(`Pokemon ${idPokemon} no encontrado`); //Lanza un status 400 con el mensaje de que no se encontro
-    }//send o json? 
-};
-
-//Funcion buscar pokemons por NAME en la Api y en la DB (AMBOS)
-const getPokemonsName = async (req, res) => { //Funcion asincronica
-    try { //Manejo de errores 
-        const name  = req.query.name; //Metodo parametro Name por query
-        if (name) { //En la condicional si tenemos name 
-            // name = name.toLowerCase();
-            const pokemonByApi = await getPokemonsApi(name);
-        //Guardamos en una constante la espera a la llamada de la funcion getPokemonsApi(De la POKEAPI) y le pasamos el parametro name
-            const pokemonByDB = await getPokemonsDB(name); //undefined, name?
-        //Guardamos en una constante la espera a la llamada de la funcion getPokemonsDB(De la DB) y le pasamos el parametro name
-            if (pokemonByApi) { //En la condicional if decimos que si tenemos el name de la Api
-                res.status(200).json(pokemonByApi);//Nos de un estatus 200 con el json de ese pokemon
-            }
-            if (pokemonByDB) { //En la condicional if decimos que si tenemos el name de la DB
-                res.status(200).json(pokemonByDB); //Nos de un estatus 200 con el json de ese pokemon
-            }
-            if (!pokemonByApi && !pokemonByDB) { //En caso de no tener name de la POKEAPI ni de mi DB 
-                res.status(400).json(`Pokemon ${name} no encontrado`);//Lanza un status 400 con el mensaje de que no se encontro
-            }  //json o send?
-        }
-        if (!name) {//En el caso de que no tenga name 
-            let pokes = await getAllPokemon();//Va a esperar por la funcion que trae a todos mis pokemones tanto de la API como de la DB
-            res.status(200).json(pokes); //Los muestra
-        }
-    } catch (error) {
-        console.log(error); //En caso de error
-    }
-    // const {name} = req.query.name
-    // let allPokes = await getPokemons();
-    // if(name){
-    //     let pokemonsName = await allpokes.filter(el => el.name.toLowerCase().includes(name.toLowerCase()))
-    //     pokemonsName.length?
-    //     res.status(200).json(pokemonsName) :
-    //     res.status(404).json(`Pokemon ${name} no encontrado`);
-    // }else{
-    //     res.status(200).send(allPokes)
-    // }
-};
-
-// const getPokemonsName = async (req, res) => {
-//     const name = req.query.name;
-//     const allPokemon = await getAllPokemon(); 
-
-//     if (name) {
-//         const pokemonName = allPokemon.filter(el => el.name.toLowerCase().includes(name.toLowerCase()));
-//         if(pokemonName){
-//             res.status(200).send(pokemonName)
-//             res.status(400).send(`Pokemon ${name} no encontrado`)
-//         }else{
-//             res.status(200).send(allPokemon)
-//         }
-        
-//     }
-// }
-
-//Funcion para Crear un pokemon pendiente
-const postPokemon = async (req, res) => { //Funcion asincrona
-    try { //Manejo de Errores
-        const { name, types, image, attack, weight, height, hp, speed, defense, createdInDb } = req.body;
-        //destructuración para extraer las propiedades que se solicitaran al usuario
-        
-        if(!name || !types || !image || !attack || !weight || !height ||!hp || !speed || !defense){
-            return res.status(400).send("Faltan datos por completar");
-        }
-        const nameLower = name.trim().toLowerCase(); 
-        //Lo almaceno con minuscula en Db
-
-        const typesLower = types?.map((type) => type.toLowerCase());//****
+    const nameLower = name.trim().toLowerCase(); 
+        //Lo almaceno con minuscula en Db y elimino espacios con trim
+    const typesLower = types?.map((type) => type.toLowerCase());//****
 
         const createPoke = await Pokemon.create({ 
             //Crea un nuevo registo en la DB del modelo Pokemon 
             name: nameLower,
-            // types,
-            image,
-            attack,
+            imagen,
+            attack, 
             weight,
             height,
             hp,
@@ -232,33 +39,42 @@ const postPokemon = async (req, res) => { //Funcion asincrona
             createdInDb
         });
 
-        const pokemonTypes = await Type.findAll({
+        const pokemonTypesDb = await Type.findAll({
             //En esta variable esperamos por el modelo Type a que encuentre 
             //un registro donde el nombre es igual al nombre de type
-            where: { name: typesLower },//type
+            where: { name: typesLower },//type 
         });
-        // const pokemonId = pokemonTypes?.map((p) => p.id);
 
-        await createPoke.addType(pokemonTypes); //add metodo de sequelize
+        createPoke.addType(pokemonTypesDb); //add metodo de sequelize
         //Al registro creado se agraga el valor type del los modelos en la DB
-
-        const newPokemon = await Pokemon.findOne({ ///***
-            where: { name: nameLower },
+        
+        const newPokemon = await Pokemon.findOne({ 
+            ///*** Me va a mostrar el pokemon que cree
+            where: { name: nameLower }, 
             include: [{
                 model: Type,
                 attributes: ['name']
         }]
         });
-        return res.status(200).send(newPokemon);
-    } catch (error) {
-        // res.status(400).json('Error al crear Pokemon');
-        res.status(400).json({ msj: `${error}` });
+        return res.status(200).send(newPokemon); 
+}
+
+//Funcion traer pokemons por ID
+const idPokemon = async (req, res) => {
+    const { id } = req.params;
+
+    const allPokemons = await getAllPokemon();
+
+    if(id){
+        let pokemonid  = allPokemons.filter(p => p.id == id)
+        pokemonid.length ? 
+        res.status(200).json(pokemonid) :
+        res.status(404).json("No se encontro el Pokemon")
     }
-};
+}
 
 module.exports = {
     getPokemons,
-    getPokemonsName,
-    getPokemonsId,
-    postPokemon
+    postPokemon,
+    idPokemon
 };

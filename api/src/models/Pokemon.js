@@ -23,19 +23,19 @@ module.exports = (sequelize) => {
     },
     imagen: {
       type: DataTypes.STRING,
-      // allowNull: false,
+      allowNull: false,
     },
-    hp: {
+    hp: { //Hit Points Vida
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
     },
     attack: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
     },
     defense: {
       type: DataTypes.INTEGER,
-      // allowNull: false,
+      allowNull: false,
     },
     speed: {
       type: DataTypes.INTEGER,
@@ -48,8 +48,8 @@ module.exports = (sequelize) => {
     },
     createdInDb: { //Manera mas rapida de encontrar pokemon creado en db
       type: DataTypes.BOOLEAN,
-      defaultValue: true,
-      allowNull: false
+      allowNull: false,
+      defaultValue: true
     }
   },
   {

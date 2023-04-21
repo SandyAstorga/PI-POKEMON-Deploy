@@ -6,11 +6,9 @@ const { DataTypes } = require('sequelize');
 module.exports = (sequelize) => {
   // defino el modelo de los types
   sequelize.define('type',{
-    id: {
+    id: { //Sequelize tambien lo genera de manera automatica 
       type: DataTypes.INTEGER,
-      autoIncrement: true,
-      // type: DataTypes.UUID, //
-      // defaultValue: DataTypes.UUIDV4,//Generador de ID
+      autoIncrement: true, //incrementa los numeros de 1 por 1 
       allowNull: false,  //NO se permiten valores nulos para ese campo. Campo Obligatorio!
       primaryKey: true
     },

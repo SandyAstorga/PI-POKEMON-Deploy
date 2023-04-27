@@ -106,7 +106,7 @@ const types = useSelector((state) => state.types);
                         <option value={type.name}>{type.name}</option>
                     ))}
                 </select>
-                    <li>{form.types.map((type) => type + " , ")}</li>
+                    <li className={style.types}>{form.types.map((type) => type + " , ")}</li>
             {/* </p> */}
             <button className={style.submit}>
                 <span className={style.submit_span}>Submit</span>

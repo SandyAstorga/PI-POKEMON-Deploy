@@ -7,7 +7,6 @@ export const GET_POKEMONS = "GET_POKEMONS";
 export const FILTER_BY_TYPE = "FILTER_BY_TYPE";
 export const FILTER_CREATE = "FILTER_CREATE";
 export const GET_TYPE = "GET_TYPE";
-// export const RELOAD_POKEMONS = "RELOAD_POKEMONS";
 export const GET_POKEMON_NAME = "GET_POKEMON_NAME";
 export const POST_POKEMON = "POST_POKEMON";
 export const FILTER_BY_ATTACK = "FILTER_BY_ATTACK";
@@ -77,10 +76,10 @@ export const postPokemon = (payload) => {
     }
 }
 
-export function getDetail(idPokemon) {
+export function getDetail(id) {
     return async function (dispatch) {
         try {
-            var pokedata = await axios.get("http://localhost:3001/pokemons" + idPokemon);
+            var pokedata = await axios.get("http://localhost:3001/pokemons/" + id);
             return dispatch({
                 type: GET_DETAILS,
                 payload: pokedata.data
@@ -91,15 +90,9 @@ export function getDetail(idPokemon) {
     }
 }
 
-// export const reloadPokemons = () => { //NOOOOOOOOOOOOOO
-//     return {
-//         type: RELOAD_POKEMONS,
-//     }
-// }
-
-export function searchPokemonName(name) { //Nooooo
+export function searchPokemonName(name) { 
     //name llega por payload
-    // name = name.toLowerCase()
+    name = name.toLowerCase()
     return async function (dispatch) {
         try {
             const infopokename = await axios.get("http://localhost:3001/pokemons?name=" + name) 

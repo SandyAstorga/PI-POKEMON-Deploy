@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import Card from "../Card/Card";
 import Pagination from "../Pagination/Pagination";
 import style from '../Card/Card.module.css'
+// import LandingPage from "../LandingPage/LandingPage"
 // import CardsConteiner from "../CardsContainer/CardsContainer";
 
 const Home = () => {
@@ -56,7 +57,9 @@ const Home = () => {
     }
 
 
-    return (        
+    return (  
+        // <div>
+        //     {allpokemons.length < 1 ? 
         <div>
             <Pagination
                 pokemonsPerPage={pokemonsPerPage}
@@ -112,7 +115,7 @@ const Home = () => {
             {currentPokemons?.map((pokemon) => {
                 return (
                     <div className={style.container}>
-                        <Link to={"/detail" + pokemon.id}>
+                        <Link to={"/detail/" + pokemon.id}>
                             <Card
                                 key={pokemon.id}
                                 name={pokemon.name}
@@ -125,7 +128,14 @@ const Home = () => {
                 );
             })} 
             {/* <CardsConteiner/> */}
-        </div>
+        </div> 
+        // : <img
+        //             src={"https://static.wixstatic.com/media/20abc5_e58061f333744c2899c375ec7f024eb3~mv2.gif"}
+        //             width="250px" height="300px"
+        //             alt="Not found"
+        //         />
+        // }
+        // </div>
     )
 }
 

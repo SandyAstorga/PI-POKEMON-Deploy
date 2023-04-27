@@ -13,13 +13,13 @@ const location = useLocation();
 //los parámetros de consulta, y el historial de navegación.
   return (
     <div className="App">
-      {location.pathname !== '/' && <NavBar />}
+      {location.pathname !== '/' &&  <NavBar />}
       {/* renderiza el componente (NavBar) condicionalmente. */}
       {/* Esto quere decir que si la url  no es igual a "/" entonces renderice NavBar */}
       {/* Aqui abajo estan las rutas a renderizar  */}
       <Route exact path="/" component={Landing} />
       <Route exact path="/home" component={Home} />
-      <Route exact path="/detail" component={Detail} />
+      <Route exact path="/detail/:id" component={Detail} />
       <Route exact path="/create" component={Form} />
     </div>
   );

@@ -25,14 +25,16 @@ const NavBar = () => {
         dispatch(getPokemons());
     },[dispatch])
     
-    // const handleClick = (e) => {
-    //     e.preventDefault();
-    //     dispatch(getPokemons())
-    // }
+    const handleClick = (e) => {
+        e.preventDefault();
+        dispatch(getPokemons())
+    }
 
     return(
         <div className={style.navContainer}>
-            {/* <button onClick={handleClick}>Reload Pokemons</button> */}
+            <button className={style.button_nav} onClick={handleClick}>
+                <span className={style.button_span}>Reload Pokemons</span>
+            </button>
             <Link to='/home'>
                 <button className={style.button_nav}>
                     <span className={style.button_span}>Home</span>
@@ -44,7 +46,7 @@ const NavBar = () => {
                 </button>
             </Link>
             <button type="submit" onClick={handlerSubmit} className={style.button_nav}>
-                <span className={style.button_span}>Search Pokemon</span>
+                <span className={style.button_span}>🔍</span>
             </button>
             <input type="text" value={name} placeholder="Name Pokemon" onChange={handlerInputChange} className={style.input} />
         </div>

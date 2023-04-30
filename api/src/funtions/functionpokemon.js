@@ -6,12 +6,12 @@ const axios = require("axios");
 //Busca por name tambien
 const getPokemons = async (req, res) => { 
     const { name } = req.query 
-    let pokemonsAll = await getAllPokemon(); 
+    const pokemonsAll = await getAllPokemon();
     if(name){
         let pokemonName = pokemonsAll.filter(el => el.name.toLowerCase().includes(name.toLowerCase())) 
         pokemonName.length ? 
         res.status(200).send(pokemonName) :
-        res.status(400).send("Pokemon no encontrado :(")
+        res.status(404).send("Pokemon no encontrado :(")
     } else {
         res.status(200).send(pokemonsAll)
     }
@@ -50,7 +50,8 @@ const postPokemon = async (req, res) => {
                 attributes: ['name']
         }]
         });
-        return res.status(200).send(newPokemon); 
+        return res.status(200).send(newPokemon);
+        
 }
 
 //Funcion traer pokemons por ID
@@ -59,11 +60,13 @@ const idPokemon = async (req, res) => {
 
     const allPokemons = await getAllPokemon();
 
-    if(id){
-        let pokemonid  = allPokemons.filter(p => p.id == id)
+    if(Array.isArray(allPokemons)){
+        const pokemonid  = allPokemons.filter(p => p.id == id)
         pokemonid.length ? 
         res.status(200).json(pokemonid) :
         res.status(404).json("No se encontro el Pokemon")
+    } else {
+        res.status(500).json("Error interno del servidor")
     }
 }
 

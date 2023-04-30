@@ -38,7 +38,7 @@ async function getPokeApi() { //función asincrónica
     )
     return apiURL; //Se retorna esa constante
   } catch (error) { //Si existe algun error lo muestra 
-    console.log(error);
+    throw error;
   };
 };
 
@@ -69,8 +69,8 @@ const getDBPoke = async () => { //Una constante que tiene una funcion asincrona
   y se transforma el array de types en un array de strings que contienen los nombres de los tipos. 
   El resultado es un nuevo array de objetos con la misma información que el array original,
   pero con una transformación en el campo types.*/
-} catch{
-  console.log(error);
+} catch(error) {
+  throw error;
   }
 };
 
@@ -83,8 +83,8 @@ const getAllPokemon  = async () => { //constante con funcion asincrona
   
 	return allInfo; //Los retornamos 
   }
-  catch{
-    console.log(error);
+  catch(error) {
+    throw error;
   }
 }
 

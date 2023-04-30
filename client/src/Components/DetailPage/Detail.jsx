@@ -1,24 +1,36 @@
 import React from "react";
 import { Link, useParams} from "react-router-dom";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getDetail } from "../../Redux/actions";
+import { getDetail, getPokemons } from "../../Redux/actions";
 import style from './Detail.module.css'
 
 const Detail = () => {
     const dispatch = useDispatch();
     const { id } = useParams();
-    // const navigate = useNavigate();
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        dispatch(getDetail(id));
+        setLoading(true);
+        dispatch(getDetail(id)).then(() => setLoading(false));
+        dispatch(getPokemons());
     }, [dispatch, id]);
+
+    const handleClick = (e) => {
+        e.preventDefault();
+        dispatch(getPokemons())
+    }
 
     const pokeDetail = useSelector((state) => state.detail);
 
     return (
     <div>
-        {  pokeDetail && pokeDetail.length > 0 ?
+        {/* {  pokeDetail.length > 0 ?  */}
+        { loading ? (
+                <img className={style.image_loading}
+                    src={"https://i.gifer.com/XgZH.gif"}
+                    alt="" />
+            ) : (
             <div>
                 <div className={style.aling_img}>
                 <img src = {pokeDetail[0].image ? pokeDetail[0].image : pokeDetail[0].imagen} alt="" className={style.poke_img}/>
@@ -39,16 +51,16 @@ const Detail = () => {
                         }
                 </h2>
                 </div>
+                    <button className={style.button_back} onClick={handleClick} >
                     <Link to='/home'>
-                        <button className={style.button_back} >
-                            <span className={style.button_span}>Back</span>
-                        </button>
+                        <span className={style.button_span}>Back</span>
                     </Link>
-                </div> : <img className={style.image_loading}
-                    src={"https://static.wixstatic.com/media/20abc5_e58061f333744c2899c375ec7f024eb3~mv2.gif"}
-                    alt=""
-                />
-        }
+                    </button>
+                </div> 
+                // {/* : <img className={style.image_loading}
+                //     src={"https://i.gifer.com/XgZH.gif"}
+                //     alt="" /> } */}
+            )}
     </div> 
 )};
 

@@ -85,7 +85,7 @@ export function getDetail(id) {
                 payload: pokedata.data
             })
         } catch (error) {
-            console.log(error)
+            return alert("There was an unexpected error", error)
         }
     }
 }
@@ -101,7 +101,7 @@ export function searchPokemonName(name) {
                 payload: infopokename.data
             })
         } catch (error) {
-            return alert("Not Found")
+            return alert("Pokemon Not Found")
             
         }
     }

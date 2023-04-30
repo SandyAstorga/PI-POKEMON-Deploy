@@ -9,26 +9,28 @@ import { searchPokemonName, getPokemons } from "../../Redux/actions";
 const NavBar = () => {
     const dispatch = useDispatch();
     const [name, setName] = useState("")
-    
+    // const [isSearching, setIsSearching] = useState(false);
+            
     const handlerInputChange = (e) =>{
         e.preventDefault()
         setName(e.target.value)
-        // console.log(name);
     }
     
     const handlerSubmit = (e) => {
         e.preventDefault()
         setName("") //ponerlo despues de prevetdefaut para limpiar el input
         dispatch(searchPokemonName(name))
+        // setIsSearching(true);
     }
-    useEffect(() => { 
-        dispatch(getPokemons());
-    },[dispatch])
     
     const handleClick = (e) => {
         e.preventDefault();
         dispatch(getPokemons())
     }
+    
+    useEffect(() => { 
+        dispatch(getPokemons());
+    },[dispatch])
 
     return(
         <div className={style.navContainer}>
@@ -46,10 +48,11 @@ const NavBar = () => {
                 </button>
             </Link>
             <button type="submit" onClick={handlerSubmit} className={style.button_nav}>
-                <span className={style.button_span}>🔍</span>
+                <span className={style.button_span} >🔍</span>
             </button>
-            <input type="text" value={name} placeholder="Name Pokemon" onChange={handlerInputChange} className={style.input} />
-        </div>
+                <input type="text" value={name} placeholder="Name Pokemon" onChange={handlerInputChange} className={style.input} />
+                <img src={"https://static.wixstatic.com/media/20abc5_e58061f333744c2899c375ec7f024eb3~mv2.gif"} alt="" className={style.img_loader}/> 
+            </div>
     )
 }
 

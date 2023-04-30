@@ -20,6 +20,8 @@ const types = useSelector((state) => state.types);
     types: [],
     });
 
+    const [errors, setErrors] = useState({});
+
     useEffect(() => { //Despacha los types 
         dispatch(getTypePokemon());
     },[dispatch])
@@ -34,6 +36,10 @@ const types = useSelector((state) => state.types);
         validate({
             ...form,
             [property]:value});
+        setErrors(validate({
+            ...form,
+            [property]: value
+        }));
     };
 
     const submitHandler = (e) => { 
@@ -67,36 +73,44 @@ const types = useSelector((state) => state.types);
                 Create your Pokemon!
             </h1>
             <div>
-                <label className={style.labels}>Name: </label>
-                <input className={style.inputs} type="text" value={form.name} onChange={changeHandler} name="name"/>
+                <label className={style.labels} >Name: </label>
+                <input className={style.inputs} type="text" value={form.name} onChange={changeHandler} name="name" />
+                <p className={style.alert}>{errors.name}</p>
             </div>
             <div>
                 <label className={style.labels}>Imagen: </label>
                 <input className={style.inputs} type="text" value={form.imagen} onChange={changeHandler} name="imagen"/>
+                <p className={style.alert}>{errors.imagen}</p>
             </div>
             <div>
                 <label className={style.labels}>Life: </label>
                 <input className={style.inputs} type="text" value={form.hp} onChange={changeHandler} name="hp"/>
+                <p className={style.alert}>{errors.hp}</p>
             </div>
             <div>
                 <label className={style.labels}>Attack: </label>
                 <input className={style.inputs} type="text" value={form.attack} onChange={changeHandler} name="attack"/>
+                <p className={style.alert}>{errors.attack}</p>
             </div>
             <div>
                 <label className={style.labels}>Defense: </label>
                 <input className={style.inputs} type="text" value={form.defense} onChange={changeHandler} name="defense"/>
+                <p className={style.alert}>{errors.defense}</p>
             </div>
             <div>
                 <label className={style.labels}>Speed: </label>
                 <input className={style.inputs} type="text" value={form.speed} onChange={changeHandler} name="speed"/>
+                <p className={style.alert}>{errors.speed}</p>
             </div>
             <div>
                 <label className={style.labels}>Weight: </label>
                 <input className={style.inputs} type="text" value={form.weight} onChange={changeHandler} name="weight"/>
+                <p className={style.alert}>{errors.weight}</p>
             </div>
             <div>
                 <label className={style.labels}>Height: </label>
                 <input className={style.inputs} type="text" value={form.height} onChange={changeHandler} name="height"/>
+                <p className={style.alert}>{errors.height}</p>
             </div>
                 <label className={style.labels}>Type: </label>
             {/* <p className="types"> */}

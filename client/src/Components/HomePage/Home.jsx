@@ -58,8 +58,8 @@ const Home = () => {
 
 
     return (  
-        // <div>
-        //     {allpokemons.length < 1 ? 
+        <div>
+            {allpokemons.length > 0 ? 
         <div>
             <Pagination
                 pokemonsPerPage={pokemonsPerPage}
@@ -114,7 +114,7 @@ const Home = () => {
             <br/>
             {currentPokemons?.map((pokemon) => {
                 return (
-                    <div className={style.container}>
+                    <div className={`${style.container} ${style.rotate_vertical_center }`}>
                         <Link to={"/detail/" + pokemon.id}>
                             <Card
                                 key={pokemon.id}
@@ -129,13 +129,9 @@ const Home = () => {
             })} 
             {/* <CardsConteiner/> */}
         </div> 
-        // : <img
-        //             src={"https://static.wixstatic.com/media/20abc5_e58061f333744c2899c375ec7f024eb3~mv2.gif"}
-        //             width="250px" height="300px"
-        //             alt="Not found"
-        //         />
-        // }
-        // </div>
+        : <img className={style.image_loading} src={"https://i.gifer.com/XgZH.gif"}
+        alt=""/>}
+        </div>
     )
 }
 

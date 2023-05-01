@@ -1,6 +1,6 @@
 import './App.css';
 import { Route, useLocation } from 'react-router-dom';
-import { Landing, Home, Form, Detail } from './Components/indexcomponents' 
+import { Landing, Home, Form, Detail, About } from './Components/indexcomponents' 
 //importamos en una sola linea, destructuring
 import NavBar from './Components/NavBar/NavBar';
 
@@ -21,6 +21,8 @@ const location = useLocation();
       <Route exact path="/home" component={Home} />
       <Route exact path="/detail/:id" component={Detail} />
       <Route exact path="/create" component={Form} />
+      <Route exact path="/about" component={About} />
+
     </div>
   );
 }

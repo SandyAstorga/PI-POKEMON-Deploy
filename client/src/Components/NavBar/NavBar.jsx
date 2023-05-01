@@ -23,10 +23,10 @@ const NavBar = () => {
         // setIsSearching(true);
     }
     
-    const handleClick = (e) => {
-        e.preventDefault();
-        dispatch(getPokemons())
-    }
+    // const handleClick = (e) => {
+    //     e.preventDefault();
+    //     dispatch(getPokemons())
+    // }
     
     useEffect(() => { 
         dispatch(getPokemons());
@@ -34,13 +34,18 @@ const NavBar = () => {
 
     return(
         <div className={style.navContainer}>
-            <button className={style.button_nav} onClick={handleClick}>
+            {/* <button className={style.button_nav} onClick={handleClick}>
                 <span className={style.button_span}>Reload Pokemons</span>
-            </button>
+            </button> */}
             <Link to='/home'>
                 <button className={style.button_nav}>
                     <span className={style.button_span}>Home</span>
                 </button>
+            </Link>
+            <Link to='/about'>
+            <button className={style.button_nav}>
+                <span className={style.button_span}>About</span>
+            </button>
             </Link>
             <Link to='/create'>
                 <button className={style.button_nav}>

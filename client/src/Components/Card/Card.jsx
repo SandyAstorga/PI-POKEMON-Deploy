@@ -10,9 +10,7 @@ const Card = ({name, types, imagen}) => { //destructiring
             <br/>
             <img className={style.poke_img} src={imagen} alt={name}/>
             <br/>
-            <p>{types[0]}</p>
-            <p>{types[1]}</p>
-        
+            <p>🔹{types[0]} 🔹 {types[1]} 🔹 {types[2]}</p>        
         </div>
     )
 };

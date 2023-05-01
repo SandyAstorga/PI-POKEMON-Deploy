@@ -20,29 +20,55 @@ const rootReducer = (state = initialState, action) => { //estado inicial
 
         case FILTER_BY_TYPE://segundo caso filter
             const allpokemons = state.allpokemons; //El estado de todos los pokemones
-            const typesfiltered =  // Va a almacenar el filtrado del array de allpokemons
-            action.payload === "Order by Type"  //Ternario que que evalua si el valor del atributo payload dentro del objeto action es igual a "all"
-            ? allpokemons //mostrara todos los pokemones
-            : allpokemons.filter((el) => el.types.includes(action.payload));
+            // const typesfiltered =  action.payload;// Va a almacenar el filtrado del array de allpokemons
+            // action.payload === "Order by Type"  //Ternario que que evalua si el valor del atributo payload dentro del objeto action es igual a "all"
+            // ? allpokemons //mostrara todos los pokemones
+            // : allpokemons.filter((el) => el.types.includes(action.payload));
+            const typeToFilter = action.payload;
+            let typesFiltered;
             //Si no es igual a "all", los va a filtrar por el typo que incluya el valor del payload 
             //El tipo de pokemon esoecificado en payload
+            if (typeToFilter === "Order by Type") { // Si el tipo a filtrar es "all", muestra todos los pokémon
+                typesFiltered = allpokemons;
+            } else {
+                typesFiltered = allpokemons.filter((el) => el.types.includes(typeToFilter)); // Filtrar por el tipo especificado en el payload
+                if (typesFiltered.length === 0) { // Si no hay pokémon del tipo especificado, muestra todos los pokémon
+                    typesFiltered = allpokemons;
+                }
+            }
             return{ //retorna el estado actualizado de los pokemones filtrados
                 ...state,
-                pokemons: typesfiltered
+                pokemons: typesFiltered
         };
 
         case FILTER_CREATE: //Filtra por pokemones creados y de la api
             // const allpokes = state.allpokemons
-            const createdFilter =
-            action.payload === "Created"
-            ? state.allpokemons.filter((e) => e.createdInDb)
-            : state.allpokemons.filter((e) => !e.createdInDb);
+            // const createdFilter =
+            // action.payload === "Created"
+            // ? state.allpokemons.filter((e) => e.createdInDb)
+            // : state.allpokemons.filter((e) => !e.createdInDb);
+            // return {
+            //     ...state,
+            //     pokemons:
+            //     action.payload === "Select Pokemons" 
+            //     ? state.allpokemons : createdFilter
+            // }; 
+            const allPokemons = state.allpokemons;
+            const filterBy = action.payload;
+            let filteredPokemons;
+
+            if (filterBy === "Created") {
+                filteredPokemons = allPokemons.filter((el) => el.createdInDb); // Filtrar por Pokémon creados
+                if (filteredPokemons.length === 0) { // Si no hay Pokémon creados, muestra todos los Pokémon
+                    filteredPokemons = allPokemons;
+                }
+            } else {
+                filteredPokemons = allPokemons.filter((el) => !el.createdInDb); // Filtrar por Pokémon de la API
+            }
             return {
                 ...state,
-                pokemons:
-                action.payload === "Select Pokemons" 
-                ? state.allpokemons : createdFilter
-            }; //No lo renderiza si llamo a los types cuando creo...
+                pokemons: filteredPokemons
+            };
 
         case FILTER_BY_ATTACK: //Filtra por ataque
             let attackFilter = [...state.pokemons];

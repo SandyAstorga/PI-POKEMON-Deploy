@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getTypePokemon, postPokemon } from "../../Redux/actions";
+// import { Link } from "react-router-dom";
 import style from "./Form.module.css"
 import validate from "./validation";
 
@@ -69,7 +70,7 @@ const types = useSelector((state) => state.types);
 
     return (
         <form onSubmit={submitHandler}>
-            <h1>
+            <h1 className={style.h1}>
                 Create your Pokemon!
             </h1>
             <div>
@@ -120,8 +121,8 @@ const types = useSelector((state) => state.types);
                         <option value={type.name}>{type.name}</option>
                     ))}
                 </select>
+                    <p className={style.alert}>{errors.types}</p>
                     <li className={style.types}>{form.types.map((type) => type + " , ")}</li>
-            {/* </p> */}
             <button className={style.submit}>
                 <span className={style.submit_span}>Submit</span>
             </button>

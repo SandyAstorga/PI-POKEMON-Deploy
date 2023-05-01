@@ -34,8 +34,8 @@ const Detail = () => {
             <div>
                 <div className={style.aling_img}>
                 <img src = {pokeDetail[0].image ? pokeDetail[0].image : pokeDetail[0].imagen} alt="" className={style.poke_img}/>
-                <h2 className={style.info}># {pokeDetail[0].id}</h2>
                 <h1 className={style.info}>{pokeDetail[0].name}</h1>
+                <h3 className={style.info}># {pokeDetail[0].id}</h3>
                 </div>
                 <div className={style.aling_info}>
                 <h2 className={style.info}>Hp : {pokeDetail[0].hp}</h2>

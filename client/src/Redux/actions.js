@@ -20,7 +20,7 @@ export const getPokemons = () => { //mis pokemones desde el back
         // para actualizar el estado de la aplicación. 
         // La acción debe tener una propiedad "type" y puede tener una propiedad "payload" 
         // que contiene información adicional para la acción.
-        const pokemonsback = await axios.get("http://localhost:3001/pokemons"); //mi ruta del backend
+        const pokemonsback = await axios.get("/pokemons"); //mi ruta del backend
         const pokemons = pokemonsback.data; //acceder a la data de la ruta 
         dispatch({ 
             type: GET_POKEMONS, 
@@ -31,7 +31,7 @@ export const getPokemons = () => { //mis pokemones desde el back
 
 export const getTypePokemon = () => { //llama a los types desde mi back
     return async function (dispatch) {
-        var poketype = await axios.get("http://localhost:3001/types");
+        var poketype = await axios.get("/types");
         return dispatch({
             type: GET_TYPE,
             payload: poketype.data
@@ -71,7 +71,7 @@ export function sort(order){ //Filtra alfabeticamente
 }
 export const postPokemon = (payload) => {
     return async function(dispatch){
-        const pokedata = await axios.post("http://localhost:3001/pokemons", payload);
+        const pokedata = await axios.post("/pokemons", payload);
         return pokedata;
     }
 }
@@ -79,7 +79,7 @@ export const postPokemon = (payload) => {
 export function getDetail(id) {
     return async function (dispatch) {
         try {
-            var pokedata = await axios.get("http://localhost:3001/pokemons/" + id);
+            var pokedata = await axios.get("/pokemons/" + id);
             return dispatch({
                 type: GET_DETAILS,
                 payload: pokedata.data
@@ -95,7 +95,7 @@ export function searchPokemonName(name) {
     name = name.toLowerCase()
     return async function (dispatch) {
         try {
-            const infopokename = await axios.get("http://localhost:3001/pokemons?name=" + name) 
+            const infopokename = await axios.get("/pokemons?name=" + name) 
             return dispatch({
                 type: GET_POKEMON_NAME,
                 payload: infopokename.data

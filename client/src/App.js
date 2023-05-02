@@ -1,10 +1,10 @@
-import './App.css';
 import { Route, useLocation } from 'react-router-dom';
 import { Landing, Home, Form, Detail, About } from './Components/indexcomponents' 
+import './App.css';
 //importamos en una sola linea, destructuring
 import NavBar from './Components/NavBar/NavBar';
 import axios from 'axios';
-axios.defaults.baseURL = 'http://localhost:3001'
+axios.defaults.baseURL = 'https://pi-pokemon-deploy-production.up.railway.app/'
 
 function App() {
 

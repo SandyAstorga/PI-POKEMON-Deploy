@@ -21,6 +21,8 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
+// https://pi-pokemon-deploy-five.vercel.app Deploy
+// 'http://localhost:3000' Lovalhost
 
 server.use('/', routes);
 

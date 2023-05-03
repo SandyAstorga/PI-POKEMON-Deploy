@@ -1,7 +1,7 @@
 .button_back {
     position: relative;
-    margin-left: 65%;
-    top: 15px;
+    margin-left: -40%;
+    top: -9px;
     letter-spacing: 4px;
     /* font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif; */
     font-family:'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
@@ -51,8 +51,8 @@
 }
 
 .aling_info{
-    margin-top: -38%;
-    margin-left: 15%;
+    margin-top: -30%;
+    margin-left: 35%;
 }
 
 .info {

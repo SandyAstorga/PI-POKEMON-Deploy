@@ -32,7 +32,7 @@
     border-radius: 8px;
     color: #fff;
     display:flexbox;
-    font-size: 18px;
+    font-size: 16px;
     padding: 8px 0px;
     cursor: pointer;
     transition: .3s;
@@ -53,7 +53,7 @@
 /* Input */
 .input{
     position: relative;
-    margin-left: -142px;
+    margin-left: -155px;
     border-radius: 8px;
     top: -5px;
     width: 105px ;

@@ -4,7 +4,9 @@ import './App.css';
 //importamos en una sola linea, destructuring
 import NavBar from './Components/NavBar/NavBar';
 import axios from 'axios';
-axios.defaults.baseURL = 'https://pi-pokemon-deploy-production.up.railway.app/'
+axios.defaults.baseURL = 'https://pi-pokemon-deploy-production.up.railway.app'
+// https://pi-pokemon-deploy-production.up.railway.app/ Deploy
+// http://localhost:3001 Localhost
 
 function App() {
 

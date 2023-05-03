@@ -24,7 +24,7 @@ server.use((req, res, next) => {
 // https://pi-pokemon-deploy-five.vercel.app Deploy
 // 'http://localhost:3000' Lovalhost
 
-server.use('/', routes);
+server.use('/', routes); 
 
 // Error catching endware.
 server.use((err, req, res, next) => { // eslint-disable-line no-unused-vars

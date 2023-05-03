@@ -54,8 +54,8 @@ const NavBar = () => {
             </Link>
             <button type="submit" onClick={handlerSubmit} className={style.button_nav}>
                 <span className={style.button_span} >🔍</span>
-            </button>
                 <input type="text" value={name} placeholder="Name Pokemon" onChange={handlerInputChange} className={style.input} />
+            </button>
                 <img src={"https://static.wixstatic.com/media/20abc5_e58061f333744c2899c375ec7f024eb3~mv2.gif"} alt="" className={style.img_loader}/> 
             </div>
     )

@@ -22,7 +22,7 @@ server.use((req, res, next) => {
   next();
 });
 // https://pi-pokemon-deploy-five.vercel.app Deploy
-// 'http://localhost:3000' Lovalhost
+// 'http://localhost:3000' Localhost
 
 server.use('/', routes); 
 

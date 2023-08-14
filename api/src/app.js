@@ -21,7 +21,7 @@ server.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, DELETE');
   next();
 });
-// https://pi-pokemon-deploy-five.vercel.app Deploy
+// https://pi-pokemon-deploy-five.vercel.app Deploy se actualizo 
 // 'http://localhost:3000' Localhost
 
 server.use('/', routes); 
